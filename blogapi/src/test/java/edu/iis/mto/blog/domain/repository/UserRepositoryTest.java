@@ -3,6 +3,7 @@ package edu.iis.mto.blog.domain.repository;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -60,4 +61,13 @@ public class UserRepositoryTest {
         assertThat(persistedUser.getId(), notNullValue());
     }
 
+    @Test
+    public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindOneUser() {
+        User savedUser = this.repository.save(this.user);
+
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(user.getFirstName(), "", user.getEmail());
+        assertThat(users, hasSize(1));
+        assertEquals(savedUser.getId(), users.get(0).getId());
+    }
+    
 }
