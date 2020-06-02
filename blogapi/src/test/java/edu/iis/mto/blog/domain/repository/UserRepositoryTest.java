@@ -31,6 +31,7 @@ public class UserRepositoryTest {
     private UserRepository repository;
 
     private User user;
+    private User userSecond;
 
     @Before
     public void setUp() {
@@ -38,6 +39,12 @@ public class UserRepositoryTest {
         user.setFirstName("Jan");
         user.setEmail("john@domain.com");
         user.setAccountStatus(AccountStatus.NEW);
+
+        userSecond = new User();
+        userSecond.setFirstName("Elka");
+        userSecond.setLastName("Nowicka");
+        userSecond.setEmail("elka@domain.com");
+        userSecond.setAccountStatus(AccountStatus.NEW);
     }
 
     @Test
@@ -79,6 +86,15 @@ public class UserRepositoryTest {
         List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(user.getFirstName(), testLastName, user.getEmail());
         assertThat(users, hasSize(1));
         assertEquals(savedUser.getId(), users.get(0).getId());
+    }
+
+    @Test
+    public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindUserBetweenTwo() {
+        this.repository.save(this.user);
+        this.repository.save(this.userSecond);
+
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(this.userSecond.getFirstName(), this.userSecond.getLastName(), this.userSecond.getEmail());
+        assertThat(users, hasSize(1));
     }
 
 }
