@@ -97,4 +97,13 @@ public class UserRepositoryTest {
         assertThat(users, hasSize(1));
     }
 
+    @Test
+    public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindTwoUsers() {
+        this.repository.save(this.user);
+        this.repository.save(this.userSecond);
+
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
+        assertThat(users, hasSize(2));
+    }
+
 }
