@@ -69,5 +69,16 @@ public class UserRepositoryTest {
         assertThat(users, hasSize(1));
         assertEquals(savedUser.getId(), users.get(0).getId());
     }
-    
+
+    @Test
+    public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindOneUserByLastName() {
+        String testLastName = "Walaszczyk";
+        this.user.setLastName(testLastName);
+        User savedUser = this.repository.save(this.user);
+
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(user.getFirstName(), testLastName, user.getEmail());
+        assertThat(users, hasSize(1));
+        assertEquals(savedUser.getId(), users.get(0).getId());
+    }
+
 }
