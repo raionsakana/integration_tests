@@ -78,4 +78,12 @@ class LikePostRepositoryTest {
         List<LikePost> likePosts = this.likePostRepository.findAll();
         assertEquals(likePosts.get(0).getPost().getId(), this.blogPost.getId());
     }
+
+    @Test
+    void findAllAndCheckLikePost() {
+        this.likePostRepository.save(this.likePost);
+        List<LikePost> likePosts = this.likePostRepository.findAll();
+        assertEquals(likePosts.get(0).getId(), this.likePost.getId());
+    }
+    
 }
