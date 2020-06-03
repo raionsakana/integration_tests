@@ -108,13 +108,17 @@ public class UserRepositoryTest {
         this.repository.save(this.user);
         this.repository.save(this.userSecond);
 
-        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(
+                "", "", ""
+        );
         assertThat(users, hasSize(2));
     }
 
     @Test
     public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindNoUsers() {
-        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(
+                "", "", ""
+        );
         assertThat(users, hasSize(0));
     }
 
