@@ -37,6 +37,7 @@ public class UserRepositoryTest {
     public void setUp() {
         user = new User();
         user.setFirstName("Jan");
+        user.setLastName("Walaszczyk");
         user.setEmail("john@domain.com");
         user.setAccountStatus(AccountStatus.NEW);
 
@@ -72,18 +73,21 @@ public class UserRepositoryTest {
     public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindOneUser() {
         User savedUser = this.repository.save(this.user);
 
-        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(user.getFirstName(), "", user.getEmail());
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(
+                user.getFirstName(), user.getLastName(), user.getEmail()
+        );
         assertThat(users, hasSize(1));
         assertEquals(savedUser.getId(), users.get(0).getId());
     }
 
     @Test
     public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindOneUserByLastName() {
-        String testLastName = "Walaszczyk";
-        this.user.setLastName(testLastName);
+        String testLastName = "Walaszczak";
         User savedUser = this.repository.save(this.user);
 
-        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(user.getFirstName(), testLastName, user.getEmail());
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(
+                user.getFirstName(), testLastName, user.getEmail()
+        );
         assertThat(users, hasSize(1));
         assertEquals(savedUser.getId(), users.get(0).getId());
     }
@@ -93,7 +97,9 @@ public class UserRepositoryTest {
         this.repository.save(this.user);
         this.repository.save(this.userSecond);
 
-        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(this.userSecond.getFirstName(), this.userSecond.getLastName(), this.userSecond.getEmail());
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(
+                this.userSecond.getFirstName(), this.userSecond.getLastName(), this.userSecond.getEmail()
+        );
         assertThat(users, hasSize(1));
     }
 
@@ -111,5 +117,15 @@ public class UserRepositoryTest {
         List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
         assertThat(users, hasSize(0));
     }
+
+    @Test
+    public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindNoUsersWhenNoMatch() {
+        this.repository.save(this.userSecond);
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(
+                this.user.getFirstName(), this.user.getLastName(), this.user.getEmail()
+        );
+        assertThat(users, hasSize(0));
+    }
+
 
 }
