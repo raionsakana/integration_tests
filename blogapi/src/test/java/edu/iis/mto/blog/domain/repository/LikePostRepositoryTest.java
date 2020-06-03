@@ -101,4 +101,21 @@ class LikePostRepositoryTest {
         assertEquals(likePosts.get(0).getPost(), bPost);
     }
 
+    @Test
+    void modifyLikePostNewUser() {
+        this.likePostRepository.save(this.likePost);
+
+        User userSecond = new User();
+        userSecond.setFirstName("Kazik");
+        userSecond.setLastName("Ukaszewski");
+        userSecond.setEmail("kazik@gmail.com");
+        userSecond.setAccountStatus(AccountStatus.NEW);
+
+        this.entityManager.persist(userSecond);
+        this.likePostRepository.findAll().get(0).setUser(userSecond);
+
+        List<LikePost> likePosts = this.likePostRepository.findAll();
+        assertEquals(likePosts.get(0).getUser(), userSecond);
+    }
+
 }
