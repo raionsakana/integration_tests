@@ -59,4 +59,10 @@ class LikePostRepositoryTest {
         List<LikePost> likePosts = this.likePostRepository.findAll();
         assertThat(likePosts, hasSize(1));
     }
+
+    @Test
+    void findByUserAndPostIfNoPosts() {
+        List<LikePost> likePosts = this.likePostRepository.findAll();
+        assertThat(likePosts, hasSize(0));
+    }
 }
