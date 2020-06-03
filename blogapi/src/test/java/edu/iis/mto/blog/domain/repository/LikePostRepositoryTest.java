@@ -138,4 +138,14 @@ class LikePostRepositoryTest {
         assertFalse(likePosts.isPresent());
     }
 
+    @Test
+    void findByUserAndPostWithNoUserParameter() {
+        this.likePostRepository.save(this.likePost);
+
+        Optional<LikePost> likePosts = this.likePostRepository.findByUserAndPost(
+                null, this.blogPost
+        );
+        
+        assertFalse(likePosts.isPresent());
+    }
 }
