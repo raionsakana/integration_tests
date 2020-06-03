@@ -85,5 +85,20 @@ class LikePostRepositoryTest {
         List<LikePost> likePosts = this.likePostRepository.findAll();
         assertEquals(likePosts.get(0).getId(), this.likePost.getId());
     }
-    
+
+    @Test
+    void modifyLikePostNewBlogPost() {
+        this.likePostRepository.save(this.likePost);
+
+        BlogPost bPost = new BlogPost();
+        bPost.setUser(this.user);
+        bPost.setEntry("Test 2");
+        this.entityManager.persist(bPost);
+
+        this.likePostRepository.findAll().get(0).setPost(bPost);
+
+        List<LikePost> likePosts = this.likePostRepository.findAll();
+        assertEquals(likePosts.get(0).getPost(), bPost);
+    }
+
 }
