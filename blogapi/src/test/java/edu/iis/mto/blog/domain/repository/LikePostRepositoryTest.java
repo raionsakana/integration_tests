@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -116,6 +117,18 @@ class LikePostRepositoryTest {
 
         List<LikePost> likePosts = this.likePostRepository.findAll();
         assertEquals(likePosts.get(0).getUser(), userSecond);
+    }
+
+    @Test
+    void findByUserAndPost() {
+        this.likePostRepository.save(this.likePost);
+
+        Optional<LikePost> likePosts = this.likePostRepository.findByUserAndPost(
+                this.user, this.blogPost
+        );
+
+        assertEquals(likePosts.get().getPost(), this.blogPost);
+        assertEquals(likePosts.get().getUser(), this.user);
     }
 
 }
