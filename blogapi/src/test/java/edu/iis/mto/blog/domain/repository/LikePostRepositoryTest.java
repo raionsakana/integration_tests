@@ -13,11 +13,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -54,15 +53,22 @@ class LikePostRepositoryTest {
     }
 
     @Test
-    void findByUserAndPost() {
+    void findAll() {
         this.likePostRepository.save(this.likePost);
         List<LikePost> likePosts = this.likePostRepository.findAll();
         assertThat(likePosts, hasSize(1));
     }
 
     @Test
-    void findByUserAndPostIfNoPosts() {
+    void findAllIfNoPosts() {
         List<LikePost> likePosts = this.likePostRepository.findAll();
         assertThat(likePosts, hasSize(0));
+    }
+
+    @Test
+    void findAllAndCheckUser() {
+        this.likePostRepository.save(this.likePost);
+        List<LikePost> likePosts = this.likePostRepository.findAll();
+        assertEquals(likePosts.get(0).getUser().getId(), this.user.getId());
     }
 }
