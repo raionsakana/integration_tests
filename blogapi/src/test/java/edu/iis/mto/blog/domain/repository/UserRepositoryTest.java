@@ -127,5 +127,12 @@ public class UserRepositoryTest {
         assertThat(users, hasSize(0));
     }
 
-
+    @Test
+    public void testIfFindByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCaseFindUserWhenMatchIsNotFullLength() {
+        this.repository.save(this.user);
+        List<User> users = this.repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(
+                "Ja", "Wa", "john"
+        );
+        assertThat(users, hasSize(1));
+    }
 }
