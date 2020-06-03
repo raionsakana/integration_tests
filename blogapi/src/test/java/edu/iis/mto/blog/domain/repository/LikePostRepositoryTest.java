@@ -145,7 +145,19 @@ class LikePostRepositoryTest {
         Optional<LikePost> likePosts = this.likePostRepository.findByUserAndPost(
                 null, this.blogPost
         );
-        
+
         assertFalse(likePosts.isPresent());
     }
+
+    @Test
+    void findByUserAndPostWithNoBlogParameter() {
+        this.likePostRepository.save(this.likePost);
+
+        Optional<LikePost> likePosts = this.likePostRepository.findByUserAndPost(
+                this.user, null
+        );
+
+        assertFalse(likePosts.isPresent());
+    }
+
 }
