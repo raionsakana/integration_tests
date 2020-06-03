@@ -13,8 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -129,6 +128,14 @@ class LikePostRepositoryTest {
 
         assertEquals(likePosts.get().getPost(), this.blogPost);
         assertEquals(likePosts.get().getUser(), this.user);
+    }
+
+    @Test
+    void findByUserAndPostWithNoParameters() {
+        Optional<LikePost> likePosts = this.likePostRepository.findByUserAndPost(
+                null, null
+        );
+        assertFalse(likePosts.isPresent());
     }
 
 }
