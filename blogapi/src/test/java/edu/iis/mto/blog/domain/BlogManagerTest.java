@@ -4,14 +4,15 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import edu.iis.mto.blog.domain.errors.DomainError;
 import edu.iis.mto.blog.domain.model.BlogPost;
 import edu.iis.mto.blog.domain.repository.BlogPostRepository;
 import edu.iis.mto.blog.domain.repository.LikePostRepository;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -87,6 +88,12 @@ public class BlogManagerTest {
     public void likeAllowedToConfirmedUser() {
         this.user.setAccountStatus(AccountStatus.CONFIRMED);
         assertDoesNotThrow(() -> this.blogService.addLikeToPost(user.getId(), this.blogPost.getId()));
+    }
+
+    @Test
+    public void likeNotAllowedToNewUser() {
+        this.user.setAccountStatus(AccountStatus.NEW);
+        assertThrows(DomainError.class, () -> this.blogService.addLikeToPost(user.getId(), this.blogPost.getId()));
     }
 
 }
