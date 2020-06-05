@@ -96,4 +96,10 @@ public class BlogManagerTest {
         assertThrows(DomainError.class, () -> this.blogService.addLikeToPost(user.getId(), this.blogPost.getId()));
     }
 
+    @Test
+    public void likeNotAllowedToRemovedUser() {
+        this.user.setAccountStatus(AccountStatus.REMOVED);
+        assertThrows(DomainError.class, () -> this.blogService.addLikeToPost(user.getId(), this.blogPost.getId()));
+    }
+
 }
