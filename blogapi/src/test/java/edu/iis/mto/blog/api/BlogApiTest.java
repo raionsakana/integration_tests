@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,26 +36,32 @@ public class BlogApiTest {
     @MockBean
     private DataFinder finder;
 
+    private UserRequest user;
+    private Long newUserId = 1L;
+
+    @Before
+    public void setUp() {
+        this.user = new UserRequest();
+        this.user.setEmail("john@domain.com");
+        this.user.setFirstName("John");
+        this.user.setLastName("Steward");
+
+        when(blogService.createUser(user)).thenReturn(newUserId);
+    }
+
     @Test
     public void postBlogUserShouldResponseWithStatusCreatedAndNewUserId() throws Exception {
-        Long newUserId = 1L;
-        UserRequest user = new UserRequest();
-        user.setEmail("john@domain.com");
-        user.setFirstName("John");
-        user.setLastName("Steward");
-        when(blogService.createUser(user)).thenReturn(newUserId);
         String content = writeJson(user);
 
         mvc.perform(post("/blog/user").contentType(MediaType.APPLICATION_JSON)
-                                      .accept(MediaType.APPLICATION_JSON)
-                                      .content(content))
-           .andExpect(status().isCreated())
-           .andExpect(content().string(writeJson(new Id(newUserId))));
+            .accept(MediaType.APPLICATION_JSON)
+            .content(content))
+            .andExpect(status().isCreated())
+            .andExpect(content().string(writeJson(new Id(newUserId))));
     }
 
     private String writeJson(Object obj) throws JsonProcessingException {
-        return new ObjectMapper().writer()
-                                 .writeValueAsString(obj);
+        return new ObjectMapper().writer().writeValueAsString(obj);
     }
 
 }
