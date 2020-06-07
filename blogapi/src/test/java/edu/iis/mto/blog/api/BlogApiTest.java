@@ -2,10 +2,12 @@ package edu.iis.mto.blog.api;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.any;
 
+import edu.iis.mto.blog.domain.errors.DomainError;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +27,8 @@ import edu.iis.mto.blog.dto.Id;
 import edu.iis.mto.blog.services.BlogService;
 import edu.iis.mto.blog.services.DataFinder;
 
+import javax.persistence.EntityNotFoundException;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(BlogApi.class)
 public class BlogApiTest {
@@ -39,7 +43,13 @@ public class BlogApiTest {
     private DataFinder finder;
 
     private UserRequest user;
+
     private Long newUserId = 1L;
+    private Long notExistingUserId = 145L;
+
+    private int notFoundErrorCode = 404;
+    private int confilictErrorCode = 409;
+
     private String endpointBlogUser = "/blog/user";
 
     @Before
@@ -71,7 +81,16 @@ public class BlogApiTest {
         this.mvc.perform(post(this.endpointBlogUser).contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .content(content))
-            .andExpect(status().is(409));
+            .andExpect(status().is(this.confilictErrorCode));
+    }
+
+    @Test
+    public void postBlogUserShouldResponse404WhenUserNotFound() throws Exception {
+        when(finder.getUserData(this.notExistingUserId))
+            .thenThrow(new EntityNotFoundException(DomainError.USER_NOT_FOUND));
+
+        this.mvc.perform(get(this.endpointBlogUser + "/" + this.notExistingUserId))
+            .andExpect(status().is(this.notFoundErrorCode));
     }
 
     private String writeJson(Object obj) throws JsonProcessingException {
