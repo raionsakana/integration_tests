@@ -46,14 +46,14 @@ public class BlogApiTest {
         this.user.setFirstName("John");
         this.user.setLastName("Steward");
 
-        when(blogService.createUser(user)).thenReturn(newUserId);
+        when(this.blogService.createUser(this.user)).thenReturn(this.newUserId);
     }
 
     @Test
     public void postBlogUserShouldResponseWithStatusCreatedAndNewUserId() throws Exception {
-        String content = writeJson(user);
+        String content = writeJson(this.user);
 
-        mvc.perform(post("/blog/user").contentType(MediaType.APPLICATION_JSON)
+        this.mvc.perform(post("/blog/user").contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .content(content))
             .andExpect(status().isCreated())
