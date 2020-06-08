@@ -126,4 +126,18 @@ public class FindUserTest extends FunctionalTests {
             .body("[0].lastName", is("Steward"));
     }
 
+    @Test
+    public void findUserByMailPattern() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .get(FIND_API + "john@d")
+            .then()
+            .body("[0].email", is("john@domain.com"));
+    }
+
 }
