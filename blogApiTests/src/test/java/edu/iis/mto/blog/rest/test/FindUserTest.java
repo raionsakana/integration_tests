@@ -55,4 +55,19 @@ public class FindUserTest extends FunctionalTests {
             .then()
             .body("[0].email", is("john@domain.com"));
     }
+
+    @Test
+    public void findUserByNameNotExistingUser() {
+        given().accept(ContentType.JSON)
+                .header("Content-Type", "application/json;charset=UTF-8")
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .get(FIND_API + "Joanne")
+                .then()
+                .body("size()", is(0));
+    }
+    
 }
