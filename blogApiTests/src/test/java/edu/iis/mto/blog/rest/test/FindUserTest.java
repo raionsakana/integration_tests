@@ -155,4 +155,18 @@ public class FindUserTest extends FunctionalTests {
             .body("size()", is(0));
     }
 
+    @Test
+    public void findUserByMailRemovedUser() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .get(FIND_API + "adam@domain.com")
+            .then()
+            .body("size()", is(0));
+    }
+
 }
