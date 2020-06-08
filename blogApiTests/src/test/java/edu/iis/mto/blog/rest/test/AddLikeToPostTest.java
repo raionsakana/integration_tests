@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import org.apache.http.HttpStatus;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import io.restassured.http.ContentType;
@@ -19,8 +18,6 @@ public class AddLikeToPostTest extends FunctionalTests {
     private static final String NEW_API = "blog/user/2/like/1";
     private static final String REMOVED_API = "blog/user/2/like/1";
     private static final String BLOG_POST_API = "blog/post/1";
-
-    private JSONObject jsonObj = new JSONObject().put("entry", "post test AddPostTest");
 
     @Test
     public void addLikeToPostByConfirmedUser() {
