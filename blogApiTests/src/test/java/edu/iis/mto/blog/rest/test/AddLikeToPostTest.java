@@ -1,7 +1,6 @@
 package edu.iis.mto.blog.rest.test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import org.apache.http.HttpStatus;
@@ -96,7 +95,7 @@ public class AddLikeToPostTest extends FunctionalTests {
             .when()
             .get(BLOG_POST_API)
             .then()
-            .body("likesCount", is(equalTo(1)));
+            .body("likesCount", is(1));
     }
 
 }
