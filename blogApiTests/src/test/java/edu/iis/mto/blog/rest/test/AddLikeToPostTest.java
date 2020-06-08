@@ -1,6 +1,8 @@
 package edu.iis.mto.blog.rest.test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import org.apache.http.HttpStatus;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ public class AddLikeToPostTest extends FunctionalTests {
     private static final String OWNER_API = "blog/user/1/like/1";
     private static final String NEW_API = "blog/user/2/like/1";
     private static final String REMOVED_API = "blog/user/2/like/1";
+    private static final String BLOG_POST_API = "blog/post/1";
 
     private JSONObject jsonObj = new JSONObject().put("entry", "post test AddPostTest");
 
@@ -70,4 +73,39 @@ public class AddLikeToPostTest extends FunctionalTests {
             .when()
             .post(REMOVED_API);
     }
+
+    @Test
+    public void addLikeTwiceDoesNotChangeAnythingByTheSameUser() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .body(jsonObj.toString())
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .post(CONFIRMED_API);
+
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .body(jsonObj.toString())
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .post(CONFIRMED_API);
+
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .get(BLOG_POST_API)
+            .then()
+            .body("likesCount", is(equalTo(1)));
+    }
+
 }
