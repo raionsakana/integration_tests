@@ -83,5 +83,18 @@ public class FindUserTest extends FunctionalTests {
             .body("size()", is(0));
     }
 
+    @Test
+    public void findUserByMailNotExistingUser() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .get(FIND_API + "trattoriajoanne@domain.com")
+            .then()
+            .body("size()", is(0));
+    }
 
 }
