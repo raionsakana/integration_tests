@@ -69,6 +69,7 @@ public class FindUserTest extends FunctionalTests {
             .then()
             .body("size()", is(0));
     }
+
     @Test
     public void findUserByLastNameNotExistingUser() {
         given().accept(ContentType.JSON)
@@ -138,6 +139,20 @@ public class FindUserTest extends FunctionalTests {
             .get(FIND_API + "john@d")
             .then()
             .body("[0].email", is("john@domain.com"));
+    }
+
+    @Test
+    public void findUserByNameRemovedUser() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .get(FIND_API + "Adam")
+            .then()
+            .body("size()", is(0));
     }
 
 }
