@@ -12,6 +12,7 @@ public class AddPostTest extends FunctionalTests {
 
     private static final String CONFIRMED_API = "blog/user/1/post";
     private static final String NEW_API = "blog/user/2/post";
+    private static final String REMOVED_API = "blog/user/2/post";
 
     private JSONObject jsonObj = new JSONObject().put("entry", "post test AddPostTest");
 
@@ -39,6 +40,19 @@ public class AddPostTest extends FunctionalTests {
             .statusCode(HttpStatus.SC_BAD_REQUEST)
             .when()
             .post(NEW_API);
+    }
+
+    @Test
+    public void addPostByRemovedUser() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .body(jsonObj.toString())
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
+            .when()
+            .post(REMOVED_API);
     }
 
 }
