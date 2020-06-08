@@ -26,7 +26,6 @@ public class AddLikeToPostTest extends FunctionalTests {
     public void addLikeToPostByConfirmedUser() {
         given().accept(ContentType.JSON)
             .header("Content-Type", "application/json;charset=UTF-8")
-            .body(jsonObj.toString())
             .expect()
             .log()
             .all()
@@ -39,7 +38,6 @@ public class AddLikeToPostTest extends FunctionalTests {
     public void addLikeToPostByOwner() {
         given().accept(ContentType.JSON)
             .header("Content-Type", "application/json;charset=UTF-8")
-            .body(jsonObj.toString())
             .expect()
             .log()
             .all()
@@ -52,7 +50,6 @@ public class AddLikeToPostTest extends FunctionalTests {
     public void addLikeToPostByNewUser() {
         given().accept(ContentType.JSON)
             .header("Content-Type", "application/json;charset=UTF-8")
-            .body(jsonObj.toString())
             .expect()
             .log()
             .all()
@@ -65,7 +62,6 @@ public class AddLikeToPostTest extends FunctionalTests {
     public void addLikeToPostByRemovedUser() {
         given().accept(ContentType.JSON)
             .header("Content-Type", "application/json;charset=UTF-8")
-            .body(jsonObj.toString())
             .expect()
             .log()
             .all()
@@ -78,7 +74,6 @@ public class AddLikeToPostTest extends FunctionalTests {
     public void addLikeTwiceDoesNotChangeAnythingByTheSameUser() {
         given().accept(ContentType.JSON)
             .header("Content-Type", "application/json;charset=UTF-8")
-            .body(jsonObj.toString())
             .expect()
             .log()
             .all()
@@ -88,7 +83,6 @@ public class AddLikeToPostTest extends FunctionalTests {
 
         given().accept(ContentType.JSON)
             .header("Content-Type", "application/json;charset=UTF-8")
-            .body(jsonObj.toString())
             .expect()
             .log()
             .all()
