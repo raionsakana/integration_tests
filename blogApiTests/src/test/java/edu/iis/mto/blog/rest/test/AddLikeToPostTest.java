@@ -27,5 +27,18 @@ public class AddLikeToPostTest extends FunctionalTests {
             .when()
             .post(CONFIRMED_API);
     }
-    
+
+    @Test
+    public void addLikeToPostByOwner() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .body(jsonObj.toString())
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
+            .when()
+            .post(OWNER_API);
+    }
+
 }
