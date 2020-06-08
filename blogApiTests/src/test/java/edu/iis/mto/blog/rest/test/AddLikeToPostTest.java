@@ -12,6 +12,7 @@ public class AddLikeToPostTest extends FunctionalTests {
 
     private static final String CONFIRMED_API = "blog/user/4/like/1";
     private static final String OWNER_API = "blog/user/1/like/1";
+    private static final String NEW_API = "blog/user/2/like/1";
 
     private JSONObject jsonObj = new JSONObject().put("entry", "post test AddPostTest");
 
@@ -39,6 +40,19 @@ public class AddLikeToPostTest extends FunctionalTests {
             .statusCode(HttpStatus.SC_BAD_REQUEST)
             .when()
             .post(OWNER_API);
+    }
+
+    @Test
+    public void addLikeToPostByNewUser() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .body(jsonObj.toString())
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_BAD_REQUEST)
+            .when()
+            .post(NEW_API);
     }
 
 }
