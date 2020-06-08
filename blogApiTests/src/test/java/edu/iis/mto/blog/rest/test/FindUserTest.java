@@ -111,4 +111,19 @@ public class FindUserTest extends FunctionalTests {
             .body("[0].firstName", is("John"));
     }
 
+
+    @Test
+    public void findUserByLastNamePattern() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .get(FIND_API + "Stewa")
+            .then()
+            .body("[0].lastName", is("Steward"));
+    }
+
 }
