@@ -69,5 +69,19 @@ public class FindUserTest extends FunctionalTests {
                 .then()
                 .body("size()", is(0));
     }
-    
+    @Test
+    public void findUserByLastNameNotExistingUser() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .get(FIND_API + "Trattoria")
+            .then()
+            .body("size()", is(0));
+    }
+
+
 }
