@@ -16,6 +16,7 @@ public class FindPostTest extends FunctionalTests {
     private static final String CONFIRMED_API_WITHOUT_POSTS = "blog/user/4/post";
     private static final String REMOVED_API = "blog/user/3/post";
     private static final String NOT_EXISTING_API = "blog/user/145/post";
+    private static final String NEW_API = "blog/user/2/post";
 
     @Test
     public void findPostByConfirmedUser() {
@@ -67,5 +68,19 @@ public class FindPostTest extends FunctionalTests {
             .statusCode(HttpStatus.SC_BAD_REQUEST)
             .when()
             .get(NOT_EXISTING_API);
+    }
+
+    @Test
+    public void findPostByNewUser() {
+        given().accept(ContentType.JSON)
+            .header("Content-Type", "application/json;charset=UTF-8")
+            .expect()
+            .log()
+            .all()
+            .statusCode(HttpStatus.SC_OK)
+            .when()
+            .get(NEW_API)
+            .then()
+            .body("size()", is(1));
     }
 }
